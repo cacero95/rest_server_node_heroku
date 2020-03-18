@@ -2,3 +2,39 @@
 
 see the repositories on the project
 {{git remote --v}}
+
+librerias a recordar npm
+
+// encripta datos mediate una funcion hash
+const bcrypt = require('bcrypt');
+
+// facilita al momento de montar un servidor
+const express = require('express');
+
+// una de las librerias interpretes de una dba con mongo
+const mongoose = require('mongoose');
+
+// libreria que revisa que no haya recurrencia en el mongodb
+const uniquevalidator = require('mongoose-unique-validator');
+
+// moongose tambien permite armar modelos en forma de Schemas
+let Schema = mongoose.Schema;
+
+// el underscore funciona para hacer un filter en el objeto del request
+// retornando un objeto con solo los parametros que se requieren
+const __ = require('underscore');
+let body = __.pick(req.body, [
+    'nombre', 'email', 'img', 'role', 'estado'
+]); // el segundo parametro solo los parametros que se necesitan en el nuevo objeto
+// bcrypt funciona para encriptar datos en forma de hash
+const bcrypt = require('bcrypt');
+password: bcrypt.hashSync(body.password, 10)
+
+
+mongodb+srv://cacero95:<password>@cluster0-kidac.mongodb.net/test
+mongodb+srv://cacero95:<password>@cluster0-kidac.mongodb.net/test
+$Xboxplaywi95
+%24Xboxplaywi95
+3T5TPi5r6SSq@XF
+3T5TPi5r6SSq%40XF
+%24%58boxplaywi95
