@@ -14,5 +14,5 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 /**
  * dba string connection
  */
-process.env.URLDB = process.env.NODE_ENV === 'dev' ? 'mongodb://localhost:27017/cafe' : 'mongodb+srv://cacero95:Xboxplaywi95@cluster0-kidac.mongodb.net/test';
+process.env.URLDB = process.env.NODE_ENV === 'dev' ? 'mongodb://localhost:27017/cafe' : process.env.dba_string;
 console.log(process.env.URLDB);

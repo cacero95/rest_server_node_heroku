@@ -38,3 +38,12 @@ $Xboxplaywi95
 3T5TPi5r6SSq@XF
 3T5TPi5r6SSq%40XF
 %24%58boxplaywi95
+
+// para configurar las variables de entorno en heroku
+heroku config:set {{nombre_variable}}={{"value"}}
+
+// para obtener una variable en heroku
+heroku config:get {{nombre_variable}}
+
+// para borrar una variable 
+heroku config:unset {{nombre_variable}}
