@@ -2,9 +2,11 @@ const express = require('express');
 // encripta datos mediate una funcion hash
 const bcrypt = require('bcrypt');
 const __ = require('underscore');
+const { verification, verifica_role } = require('../middlewares/authentication');
 const app = express();
 const Usuario = require('../models/usuario');
-app.get('/usuario', (req, res) => {
+// el path es definido por path del request, midlewares, (req,res)
+app.get('/usuario', verification, (req, res) => {
     // con el metodo exec ejecuta el comando mas veloz que si no tuviera en exec()
     // con el metodo limit permite restringir el numero de resultados
     // el comando skip funciona para saltar un determinado numero de resultados en el total
@@ -38,7 +40,7 @@ app.get('/usuario', (req, res) => {
             })
         })
 })
-app.post('/usuario', (req, res) => {
+app.post('/usuario', [verification, verifica_role], (req, res) => {
     let body = req.body;
     console.log(body)
     let usuario = new Usuario({
@@ -64,7 +66,7 @@ app.post('/usuario', (req, res) => {
 
 
 })
-app.put('/usuario/:id', (req, res) => {
+app.put('/usuario/:id', [verification, verifica_role], (req, res) => {
     let id = req.params.id;
     console.log(id)
     let body = __.pick(req.body, [
@@ -86,7 +88,7 @@ app.put('/usuario/:id', (req, res) => {
      })
      * 
      */
-    Usuario.findOneAndUpdate(id, body, { new: true, runValidators: true }, (err, mongoUser) => {
+    Usuario.findOneAndUpdate({ email: id }, body, { new: true, runValidators: true }, (err, mongoUser) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -102,7 +104,7 @@ app.put('/usuario/:id', (req, res) => {
 
 })
 
-app.delete('/usuario/:id', (req, res) => {
+app.delete('/usuario/:id', [verification, verifica_role], (req, res) => {
     let id = req.params.id;
     Usuario.findOneAndUpdate(id, { estado: false }, { new: true, runValidators: true }, (err, mongoUser) => {
         if (err) {
@@ -122,7 +124,7 @@ app.delete('/usuario/:id', (req, res) => {
 
 
 // funcion de remove a user
-app.delete('/remove/:id', (req, res) => {
+app.delete('/remove/:id', verification, (req, res) => {
     let id = req.params.email;
     Usuario.findOneAndRemove({ email: id }, (err, user_deleted) => {
         if (err) {
