@@ -29,6 +29,19 @@ let body = __.pick(req.body, [
 // bcrypt funciona para encriptar datos en forma de hash
 const bcrypt = require('bcrypt');
 password: bcrypt.hashSync(body.password, 10)
+//permite crear tokens validos y verificarlos
+const jwt = require('jsonwebtoken);
+// en esta parte se verifica los tokens, el process.env.SEED contiene el secret SEED
+jwt.verify(token, process.env.SEED, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({
+                ok: false,
+                err
+            })
+        }
+        req.usuario = decoded.usuario;
+        next();
+    })
 
 
 mongodb+srv://cacero95:<password>@cluster0-kidac.mongodb.net/test
@@ -38,6 +51,11 @@ $Xboxplaywi95
 3T5TPi5r6SSq@XF
 3T5TPi5r6SSq%40XF
 %24%58boxplaywi95
+
+/**
+    heroku enviroment variable
+*/
+
 
 // para configurar las variables de entorno en heroku
 heroku config:set {{nombre_variable}}={{"value"}}
