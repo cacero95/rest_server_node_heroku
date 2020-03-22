@@ -10,6 +10,12 @@ const bcrypt = require('bcrypt');
 
 // facilita al momento de montar un servidor
 const express = require('express');
+// para definir una carpeta publica en el servidor express
+app.use(express.static(path.resolve(__dirname, '../public')));
+
+// libreria path permite resolver los paths dentro del servidor
+const path = require('path');
+path.resolve(__dirname,'{{ruta necesitada}}')
 
 // una de las librerias interpretes de una dba con mongo
 const mongoose = require('mongoose');
@@ -65,3 +71,10 @@ heroku config:get {{nombre_variable}}
 
 // para borrar una variable 
 heroku config:unset {{nombre_variable}}
+
+
+/**
+* Google sign on
+*/
+id client: 660910679754-etq8a5eskk3no0rsqtphm5smjboeb7bg.apps.googleusercontent.com
+secret client: fjOJ-tazzHP2XCHEbETy2Ulp

@@ -33,3 +33,9 @@ process.env.EXPIRED_TOKEN = 60 * 60 * 24 * 30;
  */
 
 process.env.SEED = process.env.SEED || 'secret-seed';
+
+/**
+ * google client id
+ */
+
+process.env.CLIENT_ID = process.env.CLIENT_ID || '660910679754-7tgt311r4fd02nmubaj439bmo8ou36jl.apps.googleusercontent.com';
