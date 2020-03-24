@@ -26,7 +26,7 @@ console.log(process.env.URLDB);
  * 30 dias
  */
 
-process.env.EXPIRED_TOKEN = 60 * 60 * 24 * 30;
+process.env.EXPIRED_TOKEN = '48h';
 
 /**
  * secret token
