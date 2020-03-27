@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
 const Categoria = require('../models/categoria');
-const Usuario = require('../models/usuario')
-    /**
-     * verificacion de tokens
-     */
+const Usuario = require('../models/usuario');
+const Producto = require('../models/productos');
+/**
+ * verificacion de tokens
+ */
 verification = (req, res, next) => {
         // para entrar a los headers de un request se usa el req
         let token = req.get('Authorization');
@@ -70,8 +71,8 @@ let search_category = (req, res, next) => {
     }
     // middleware que distingue entre un usuario y un producto y retorna su id
 search_id = (req, res, next) => {
-    let id = req.params.id;
-    let body = req.body;
+    // el id puede ser representado por el email o el nombre del producto
+    let body = req.params;
     if (body.type != 'usuario' && body.type != 'producto') {
         res.status(400).json({
             ok: false,
@@ -82,9 +83,43 @@ search_id = (req, res, next) => {
         })
     } else {
         if (body.type == 'usuario') {
-
+            Usuario.findOne({ email: body.id }, (err, usuario) => {
+                console.log(usuario)
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        err
+                    })
+                } else if (!usuario) {
+                    return res.status(400).json({
+                        ok: false,
+                        err: {
+                            message: 'User could not found'
+                        }
+                    })
+                }
+                req.result_id = usuario;
+                next();
+            })
         } else {
-
+            Producto.findOne({ nombre: body.id }, (err, producto) => {
+                console.log(producto);
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        err
+                    })
+                } else if (!producto) {
+                    return res.status(400).json({
+                        ok: false,
+                        err: {
+                            message: 'product could not found'
+                        }
+                    })
+                }
+                req.result_id = producto;
+                next();
+            })
         }
     }
 }
@@ -93,5 +128,6 @@ search_id = (req, res, next) => {
 module.exports = {
     verification,
     verifica_role,
-    search_category
+    search_category,
+    search_id
 };
